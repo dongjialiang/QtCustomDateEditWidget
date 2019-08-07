@@ -13,7 +13,6 @@ CustomDateEdit::CustomDateEdit(QWidget * parent) :
 
     yearMenu = new QMenu(this);
     yearButton = calendarWidget()->findChild<QToolButton *>(QLatin1String("qt_calendar_yearbutton")); // 年份按钮
-    yearButton->setPopupMode(QToolButton::MenuButtonPopup); // 防止yearButton点击后触发"qt_calendar_yearedit"(QSpinBox)控件
     QList<QAction *> listAction = yearMenu->actions(); // 以数组形式存储动作
     /* 循环处理每个动作 */
     for (int year = minimumYear; year <= maximumYear; year++) {
@@ -34,12 +33,14 @@ CustomDateEdit::CustomDateEdit(QWidget * parent) :
     }); // 月份改变时立即作用到日期的信号槽
 
     QTextCharFormat dateTextFormat; // 日期文本样式格式
-    dateTextFormat.setBackground(QColor(20, 20, 20, 153)); // 背景色
-    dateTextFormat.setForeground(Qt::white); // 作用到字体颜色
+    dateTextFormat.setBackground(Qt::white); // 背景色
+    dateTextFormat.setForeground(Qt::black); // 作用到字体颜色
+    calendarWidget()->setHorizontalHeaderFormat(QCalendarWidget::ShortDayNames);
     /* 星期(周)的每一天的样式 */
     for (int dayOfWeek = Qt::Monday; dayOfWeek <= Qt::Sunday; dayOfWeek++) {
         calendarWidget()->setWeekdayTextFormat(Qt::DayOfWeek(dayOfWeek), dateTextFormat);
     }
+
     QFile dateEditFile(":/style/dateEditStyle.qss"); // 取样式文件
     if (dateEditFile.open(QFile::ReadOnly)) { // 文件可以只读方式打开
         QString styleSheet = QLatin1String(dateEditFile.readAll()); // 获取样式文件内容
