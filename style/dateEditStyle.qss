@@ -1,0 +1,59 @@
+#qt_datetimedit_calendar,
+#qt_calendar_navigationbar {
+    background: rgba(20, 20, 20, 0.6);
+    color: white;
+}
+QAbstractItemView:enabled {
+    color: white;
+}
+QAbstractItemView:disabled {
+    color: rgb(180, 180, 180);
+}
+#qt_calendar_monthbutton,
+#qt_calendar_yearbutton,
+#qt_calendar_yearedit {
+    background: rgba(0, 0, 0, 0);
+    padding: 0 60px 0;
+}
+#qt_calendar_monthbutton:hover:enabled,
+#qt_calendar_yearbutton:hover:enabled {
+    color: rgba(250, 250, 250, 0.6);
+}
+#qt_calendar_monthbutton:pressed,
+#qt_calendar_yearbutton:pressed {
+    color: rgba(250, 250, 250, 0.9);
+}
+#qt_calendar_nextmonth,
+#qt_calendar_prevmonth {
+    qproperty-iconSize: 30px 30px;
+    background: rgba(0, 0, 0, 0);
+    width: 60px;
+    height: 30px;
+}
+#qt_calendar_nextmonth {
+    qproperty-icon: url(:/images/next);
+}
+#qt_calendar_prevmonth {
+    qproperty-icon: url(:/images/prev);
+}
+#qt_calendar_yearedit::up-button,
+#qt_calendar_yearedit::down-button {
+    width: 0;
+    height: 0;
+}
+#qt_calendar_monthbutton::menu-indicator,
+#qt_calendar_yearbutton::menu-indicator {
+    subcontrol-position: right center;
+    subcontrol-origin: padding;
+}
+QMenu {
+    min-width: 100px;
+}
+QMenu::item, QMenu::item:selected {
+    color: white;
+}
+QAbstractItemView:enabled,
+QAbstractItemView:disabled,
+QMenu, QMenu::item, QMenu::item:selected {
+    background: rgba(200, 200, 200, 0.2);
+}

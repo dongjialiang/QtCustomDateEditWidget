@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style/dateEditStyle.qss</file>
+        <file>images/next.png</file>
+        <file>images/prev.png</file>
+    </qresource>
+</RCC>
