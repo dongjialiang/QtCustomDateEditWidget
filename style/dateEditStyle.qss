@@ -1,4 +1,4 @@
-#qt_calendar_navigationbar {
+#CalendarHeaderWidget {
     background: white;
     color: black;
 }
@@ -8,75 +8,86 @@ QAbstractItemView:enabled {
 QAbstractItemView:disabled {
     color: rgb(180, 180, 180);
 }
-#qt_calendar_monthbutton,
-#qt_calendar_yearbutton,
-#qt_calendar_yearedit {
-    background: rgba(0, 0, 0, 0);
-    color: black;
-}
-#qt_calendar_monthbutton {
-    padding: 0 0 0 40px;
-}
-#qt_calendar_yearbutton {
-    padding: 0 40px 0 0;
-}
-#qt_calendar_monthbutton:hover:enabled,
-#qt_calendar_yearbutton:hover:enabled {
-    color: rgba(30, 30, 30, 0.6);
-}
-#qt_calendar_monthbutton:pressed,
-#qt_calendar_yearbutton:pressed {
-    color: rgba(30, 30, 30, 0.4);
-}
-#qt_calendar_nextmonth,
-#qt_calendar_prevmonth {
-    qproperty-iconSize: 30px 30px;
+#CalendarNextMonthButton, #CalendarPrevMonthButton,
+#CalendarPrevYearButton, #CalendarNextYearButton,
+#CalendarDataLabel {
+    border: 0;
     background: white;
-    width: 60px;
-    height: 30px;
 }
-#qt_calendar_nextmonth {
-    qproperty-icon: url(:/images/next);
+#CalendarNextMonthButton:hover, #CalendarPrevMonthButton:hover,
+#CalendarPrevYearButton:hover, #CalendarNextYearButton:hover,
+#CalendarDataLabel:hover {
+    padding: -2px 0 0;
 }
-#qt_calendar_prevmonth {
-    qproperty-icon: url(:/images/prev);
+#CalendarNextMonthButton:pressed, #CalendarPrevMonthButton:pressed,
+#CalendarPrevYearButton:pressed, #CalendarNextYearButton:pressed,
+#CalendarDataLabel:pressed {
+    padding: 2px 0 0;
 }
-#qt_calendar_yearedit::up-button,
-#qt_calendar_yearedit::down-button {
-    width: 0;
-    height: 0;
-}
-#qt_calendar_monthbutton::menu-indicator,
-#qt_calendar_yearbutton::menu-indicator,
-#qt_calendar_yearedit::menu-indicator {
-    subcontrol-position: right center;
-    subcontrol-origin: padding;
-}
-QMenu {
-    padding: 0;
-    min-width: 100px;
-    background: rgb(81, 203, 204);
-}
-QMenu::item {
+#CalendarDataLabel {
     color: black;
 }
-QMenu::item:selected {
-    background: rgb(81, 203, 204);
-    color: white;
+#CalendarNextMonthButton {
+    image: url(:/images/nextMonth);
+}
+#CalendarPrevMonthButton {
+    image: url(:/images/prevMonth);
+}
+#CalendarNextYearButton {
+    image: url(:/images/nextYear);
+}
+#CalendarPrevYearButton {
+    image: url(:/images/prevYear);
 }
 QAbstractItemView:enabled,
-QAbstractItemView:disabled,
-QMenu::item {
-    background: rgba(255, 255, 255, 1);
+QAbstractItemView:disabled {
+    background: white;
 }
 QTableView {
     selection-color: white;
-    selection-background-color: rgb(81, 203, 204);
+    selection-background-color: qradialgradient(cx:0.38, cy:0.4,
+        radius:0.56, fx:0.6, fy:0.6,
+        stop:0.5 rgba(81, 203, 204, 255),
+        stop:0.56 rgba(255, 255, 255, 255));
+    outline: none;
 }
 QCalendarWidget {
     min-width: 315px;
     min-height: 315px;
 }
-QHeaderView {
-    color: red;
+#MonthMenu, #YearMenu {
+    background: white;
+}
+#monthListEnabled, #yearListEnabled,
+#monthListDisabled, #yearListDisabled {
+    background: white;
+    width: 40px;
+    height: 40px;
+    border: 0;
+}
+#monthListEnabled, #yearListEnabled {
+    color: black;
+}
+#monthListDisabled, #yearListDisabled {
+    color: gray;
+}
+QPushButton:pressed {
+    padding: 3px 0 0;
+}
+#monthListEnabled:hover, #yearListEnabled:hover,
+#monthListDisabled:hover, #yearListDisabled:hover {
+    border: 1px solid gray;
+    color: rgb(30, 30, 30);
+}
+QToolTip {
+    color: black;
+    background: white;
+    border: 0;
+}
+#yearButton, #monthButton {
+    min-width: 50px;
+    min-height: 30px;
+    background: white;
+    border: 0;
+    color: black;
 }
