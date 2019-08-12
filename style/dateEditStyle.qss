@@ -1,4 +1,4 @@
-#CalendarHeaderWidget {
+#HeaderWidget {
     background: white;
     color: black;
 }
@@ -8,35 +8,29 @@ QAbstractItemView:enabled {
 QAbstractItemView:disabled {
     color: rgb(180, 180, 180);
 }
-#CalendarNextMonthButton, #CalendarPrevMonthButton,
-#CalendarPrevYearButton, #CalendarNextYearButton,
-#CalendarDataLabel {
+#NextMonthButton, #PrevMonthButton,
+#PrevYearButton, #NextYearButton {
     border: 0;
     background: white;
 }
-#CalendarNextMonthButton:hover, #CalendarPrevMonthButton:hover,
-#CalendarPrevYearButton:hover, #CalendarNextYearButton:hover,
-#CalendarDataLabel:hover {
+#NextMonthButton:hover, #PrevMonthButton:hover,
+#PrevYearButton:hover, #NextYearButton:hover {
     padding: -2px 0 0;
 }
-#CalendarNextMonthButton:pressed, #CalendarPrevMonthButton:pressed,
-#CalendarPrevYearButton:pressed, #CalendarNextYearButton:pressed,
-#CalendarDataLabel:pressed {
+#NextMonthButton:pressed, #PrevMonthButton:pressed,
+#PrevYearButton:pressed, #NextYearButton:pressed {
     padding: 2px 0 0;
 }
-#CalendarDataLabel {
-    color: black;
-}
-#CalendarNextMonthButton {
+#NextMonthButton {
     image: url(:/images/nextMonth);
 }
-#CalendarPrevMonthButton {
+#PrevMonthButton {
     image: url(:/images/prevMonth);
 }
-#CalendarNextYearButton {
+#NextYearButton {
     image: url(:/images/nextYear);
 }
-#CalendarPrevYearButton {
+#PrevYearButton {
     image: url(:/images/prevYear);
 }
 QAbstractItemView:enabled,
@@ -59,23 +53,25 @@ QCalendarWidget {
     background: white;
 }
 #monthListEnabled, #yearListEnabled,
-#monthListDisabled, #yearListDisabled {
-    background: white;
-    width: 40px;
-    height: 40px;
+#monthListDisabled, #yearListDisabled,
+#monthListSelected, #yearListSelected {
+    height: 80px;
     border: 0;
 }
 #monthListEnabled, #yearListEnabled {
     color: black;
+    background: white;
 }
 #monthListDisabled, #yearListDisabled {
     color: gray;
+    background: white;
 }
 QPushButton:pressed {
     padding: 3px 0 0;
 }
 #monthListEnabled:hover, #yearListEnabled:hover,
-#monthListDisabled:hover, #yearListDisabled:hover {
+#monthListDisabled:hover, #yearListDisabled:hover,
+#monthListSelected:hover, #yearListSelected:hover {
     border: 1px solid gray;
     color: rgb(30, 30, 30);
 }
@@ -90,4 +86,11 @@ QToolTip {
     background: white;
     border: 0;
     color: black;
+}
+#monthListSelected, #yearListSelected {
+    color: white;
+    background-color: qradialgradient(cx:0.5, cy:0.5,
+        radius:0.5, fx:0.5, fy:0.5,
+        stop:0.55 rgba(81, 203, 204, 255),
+        stop:0.6 rgba(255, 255, 255, 255));
 }
