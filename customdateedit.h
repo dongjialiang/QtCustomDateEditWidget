@@ -2,7 +2,6 @@
 #define CUSTOMDATEEDIT_H
 
 #include <QDateEdit>
-#include <QToolButton>
 #include <QMenu>
 #include <QFile>
 #include <QTextCharFormat>
@@ -16,10 +15,11 @@ class CustomDateEdit : public QDateEdit {
     Q_OBJECT
 public:
     explicit CustomDateEdit(QWidget * parent = nullptr);
+    explicit CustomDateEdit(QString type, QWidget * parent = nullptr);
     ~CustomDateEdit();
+    void changeType(QString type); // 改变日历菜单类型
 private slots:
     void selectedMonth(int year, int month); // 选择月份的槽函数
-    void initHeaderWidget(); // 初始化日历导航条
     void setDateLabelText(int year, int month);
     void selectedYear(int yearCount); // 选择年份的槽函数
     void monthMenuPopup(); // 展示月份菜单的槽函数
@@ -27,6 +27,9 @@ private slots:
     void menuChanged(); // 菜单内容改变的槽函数
     void changeMenu(int sequence); // 切换菜单的槽函数
 private:
+    void initCalendar(); // 初始化整个日历菜单
+    void initHeaderWidget(); // 初始化日历导航条
+    QString type; // 日历菜单类型
     QPushButton * prevYearButton; // 上一年按钮
     QPushButton * nextYearButton; // 下一年按钮
     QPushButton * prevMonthButton; // 上一月按钮
