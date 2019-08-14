@@ -1,11 +1,6 @@
 #include "customdateedit.h"
 
-CustomDateEdit::CustomDateEdit(QWidget * parent) :
-    QDateEdit (parent) {
-    type = "day";
-    initCalendar();
-}
-CustomDateEdit::CustomDateEdit(QString type, QWidget * parent) :
+CustomDateEdit::CustomDateEdit(QWidget * parent, menuContent type) :
     QDateEdit (parent) {
     this->type = type;
     initCalendar();
@@ -40,7 +35,7 @@ void CustomDateEdit::initCalendar() {
 }
 /* 初始化日期导航条 */
 void CustomDateEdit::initHeaderWidget() {
-    QWidget * topWidget = new QWidget(this);
+    QWidget * topWidget = new QWidget(calendarWidget());
     topWidget->setObjectName("headerWidget");
     topWidget->setFixedHeight(40);
     topWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -49,30 +44,30 @@ void CustomDateEdit::initHeaderWidget() {
     hboxLayout->setContentsMargins(12, 0, 12, 0);
     hboxLayout->setSpacing(4);
 
-    prevYearButton = new QPushButton(this); // 上一年按钮
+    prevYearButton = new QPushButton(topWidget); // 上一年按钮
     prevYearButton->setObjectName("prevYearButton");
     prevYearButton->setFixedSize(16, 16);
     prevYearButton->setToolTip("上一年");
 
-    nextYearButton = new QPushButton(this); // 下一年按钮
+    nextYearButton = new QPushButton(topWidget); // 下一年按钮
     nextYearButton->setObjectName("nextYearButton");
     nextYearButton->setFixedSize(16, 16);
     nextYearButton->setToolTip("下一年");
 
-    prevMonthButton = new QPushButton(this); // 上个月按钮
+    prevMonthButton = new QPushButton(topWidget); // 上个月按钮
     prevMonthButton->setObjectName("prevMonthButton");
     prevMonthButton->setFixedSize(16, 16);
     prevMonthButton->setToolTip("上一个月");
 
-    nextMonthButton = new QPushButton(this); // 下个月按钮
+    nextMonthButton = new QPushButton(topWidget); // 下个月按钮
     nextMonthButton->setObjectName("nextMonthButton");
     nextMonthButton->setFixedSize(16, 16);
     nextMonthButton->setToolTip("下一个月");
 
-    yearButton = new QPushButton(this); // 年份按钮
+    yearButton = new QPushButton(topWidget); // 年份按钮
     yearButton->setObjectName("yearButton");
 
-    monthButton = new QPushButton(this); // 月份按钮
+    monthButton = new QPushButton(topWidget); // 月份按钮
     monthButton->setObjectName("monthButton");
 
     setDateLabelText(QDate::currentDate().year(), QDate::currentDate().month()); // 设置初始的日期文本
@@ -90,7 +85,7 @@ void CustomDateEdit::initHeaderWidget() {
     vBodyLayout = qobject_cast<QVBoxLayout *>(calendarWidget()->layout()); // 获取日历控件的布局
     vBodyLayout->insertWidget(0, topWidget);
 
-    monthMenu = new QWidget(this); // 月份菜单
+    monthMenu = new QWidget(calendarWidget()); // 月份菜单
     monthMenu->setObjectName("monthMenu");
     vBodyLayout->insertWidget(1, monthMenu);
     monthMenu->hide();
@@ -99,7 +94,7 @@ void CustomDateEdit::initHeaderWidget() {
     monthGridLayout->setSpacing(0);
     monthMenu->installEventFilter(this);
 
-    yearMenu = new QWidget(this); // 年份菜单
+    yearMenu = new QWidget(calendarWidget()); // 年份菜单
     yearMenu->setObjectName("yearMenu");
     vBodyLayout->insertWidget(2, yearMenu);
     yearMenu->hide();
@@ -134,17 +129,17 @@ void CustomDateEdit::initHeaderWidget() {
     connect(monthButton, &QPushButton::clicked, [this]() {
         if (monthMenu->isHidden()) {
             monthMenuPopup();
-        } else if (type == "day") {
-            changeMenu(menuContent::day);
+        } else if (type == menuContent::DAY) {
+            changeMenu(menuContent::DAY);
         }
     }); // 月份按钮的信号槽
     connect(yearButton, &QPushButton::clicked, [this]() {
         if (yearMenu->isHidden()) {
             yearMenuPopup();
-        } else if (type == "day") {
-            changeMenu(menuContent::day);
-        } else if (type == "month") {
-            changeMenu(menuContent::month);
+        } else if (type == menuContent::DAY) {
+            changeMenu(menuContent::DAY);
+        } else if (type == menuContent::MONTH) {
+            changeMenu(menuContent::MONTH);
         }
     }); // 年份按钮的信号槽
 }
@@ -168,7 +163,7 @@ void CustomDateEdit::selectedYear(int yearCount) {
 }
 /* 展示月份菜单 */
 void CustomDateEdit::monthMenuPopup() {
-    changeMenu(menuContent::month);
+    changeMenu(menuContent::MONTH);
     QList<QPushButton *> monthList;
     int currentMonth = calendarWidget()->selectedDate().month(); // 当前月份
     int initializationMonth = currentMonth - 12; // 月份菜单中的初始月份
@@ -195,8 +190,10 @@ void CustomDateEdit::monthMenuPopup() {
             connect(monthList[monthTableCount], &QPushButton::clicked, [=]() {
                 int year = calendarWidget()->selectedDate().year();
                 selectedMonth(year, monthCount);
-                if (type == "day") {
-                    changeMenu(menuContent::day);
+                if (type == menuContent::DAY) {
+                    changeMenu(menuContent::DAY);
+                } else if (type == menuContent::MONTH) {
+                    calendarWidget()->activated(calendarWidget()->selectedDate());
                 }
             });
             monthCount++;
@@ -206,7 +203,7 @@ void CustomDateEdit::monthMenuPopup() {
 }
 /* 展示年份菜单 */
 void CustomDateEdit::yearMenuPopup() {
-    changeMenu(menuContent::year);
+    changeMenu(menuContent::YEAR);
     QList<QPushButton *> yearList;
     int currentYear = calendarWidget()->selectedDate().year(); // 当前年份
     int initializationYear = currentYear - 12; // 年份菜单中显示的初始年份
@@ -227,10 +224,12 @@ void CustomDateEdit::yearMenuPopup() {
             connect(yearList[yearTableCount], &QPushButton::clicked, [=]() {
                 int currentYear = calendarWidget()->selectedDate().year();
                 selectedYear(yearCount - currentYear);
-                if (type == "day") {
-                    changeMenu(menuContent::day);
-                } else if (type == "month") {
-                    changeMenu(menuContent::month);
+                if (type == menuContent::DAY) {
+                    changeMenu(menuContent::DAY);
+                } else if (type == menuContent::MONTH) {
+                    changeMenu(menuContent::MONTH);
+                } else if (type == menuContent::YEAR) {
+                    calendarWidget()->activated(calendarWidget()->selectedDate());
                 }
             });
             yearCount++;
@@ -252,15 +251,15 @@ void CustomDateEdit::changeMenu(int sequence) {
     yearMenu->hide(); // 隐藏年份菜单
     monthMenu->hide(); // 隐藏月份菜单
     switch (sequence) {
-    case 0: yearMenu->show();
+    case menuContent::YEAR: yearMenu->show();
         yearButton->setStyleSheet("border: 1px solid gray;");
         monthButton->setStyleSheet("border: 0;");
         break;
-    case 1: monthMenu->show();
+    case menuContent::MONTH: monthMenu->show();
         monthButton->setStyleSheet("border: 1px solid gray;");
         yearButton->setStyleSheet("border: 0;");
         break;
-    case 2: vBodyLayout->itemAt(4)->widget()->show();
+    case menuContent::DAY: vBodyLayout->itemAt(4)->widget()->show();
         monthButton->setStyleSheet("border: 0;");
         yearButton->setStyleSheet("border: 0;");
         break;
@@ -289,16 +288,19 @@ bool CustomDateEdit::eventFilter(QObject *widget, QEvent *event) {
     return true;
 }
 /* 改变日历菜单类型 */
-void CustomDateEdit::changeType(QString type) {
+void CustomDateEdit::changeType(menuContent type) {
     this->type = type;
-    if (type == "day") {
+    if (type == menuContent::DAY) {
+        changeMenu(menuContent::DAY);
+        setDisplayFormat("yyyy-MM-dd");
         monthButton->show();
-        changeMenu(menuContent::day);
-    } else if(type == "month") {
-        monthButton->show();
+    } else if (type == menuContent::MONTH) {
         monthMenuPopup();
-    } else if (type == "year") {
-        monthButton->hide();
+        setDisplayFormat("yyyy-MM");
+        monthButton->show();
+    } else if (type == menuContent::YEAR) {
         yearMenuPopup();
+        setDisplayFormat("yyyy");
+        monthButton->hide();
     }
 }

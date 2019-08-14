@@ -9,7 +9,7 @@ I used **cpp** to build a custom dateEdit widget class in **Qt**.
 ![CustomDateEdit][customDateEdit]
 
 ```c++
-	CustomDateEdit * customDateEdit = new CustomDateEdit(this); // 创建自定义日期编辑控件
+    CustomDateEdit * customDateEdit = new CustomDateEdit(this); // 创建自定义日期编辑控件
     QHBoxLayout * hBoxLayout = new QHBoxLayout(); // 创建水平布局
 
     hBoxLayout->addWidget(customDateEdit); // 通过布局添加自定义日期编辑控件
@@ -21,9 +21,9 @@ I used **cpp** to build a custom dateEdit widget class in **Qt**.
 ![ChangeType][changeType]
 
 ```c++
-	CustomDateEdit * customDateEdit = new CustomDateEdit(this); // 默认是天数型的日历
-    CustomDateEdit * customDateEdit_1 = new CustomDateEdit("month", this); // 月份日历
-    CustomDateEdit * customDateEdit_2 = new CustomDateEdit("year", this); // 年份日历
+    CustomDateEdit * customDateEdit = new CustomDateEdit(this); // 默认是天数型的日历
+    CustomDateEdit * customDateEdit_1 = new CustomDateEdit(this, CustomDateEdit::MONTH); // 月份日历
+    CustomDateEdit * customDateEdit_2 = new CustomDateEdit(this, CustomDateEdit::YEAR); // 年份日历
     QHBoxLayout * hBoxLayout = new QHBoxLayout();
 
     QPushButton * changeDayButton = new QPushButton(this); // 创建选择天数型日历的按钮
@@ -47,13 +47,13 @@ I used **cpp** to build a custom dateEdit widget class in **Qt**.
     hBoxLayout->addWidget(changeYearButton);
 
     connect(changeDayButton, &QPushButton::clicked, this, [=]() {
-        customDateEdit_2->changeType("day");
+        customDateEdit_2->changeType(CustomDateEdit::DAY);
     }); // 点击天数按钮选择天数型日历的信号槽
     connect(changeMonthButton, &QPushButton::clicked, this, [=]() {
-        customDateEdit_2->changeType("month");
+        customDateEdit_2->changeType(CustomDateEdit::MONTH);
     }); // 点击天数按钮选择月份型日历的信号槽
     connect(changeYearButton, &QPushButton::clicked, this, [=]() {
-        customDateEdit_2->changeType("year");
+        customDateEdit_2->changeType(CustomDateEdit::YEAR);
     }); // 点击天数按钮选择年份型日历的信号槽
 
     ui->centralWidget->setLayout(hBoxLayout);
