@@ -4,7 +4,21 @@
 
 I used **cpp** to build a custom dateEdit widget class in **Qt**. 
 
+## Development Environment
+
+* Qt5.12.1
+
+* MinGW 7.3.0 64-bit(Windows10)
+
 ## Example
+
+### How to use
+
+```c++
+    #include "customdateedit.h"
+```
+
+### Create Widget
 
 ![CustomDateEdit][customDateEdit]
 
@@ -16,7 +30,7 @@ I used **cpp** to build a custom dateEdit widget class in **Qt**.
     ui->centralWidget->setLayout(hBoxLayout); // 设置布局
 ```
 
-
+### Change Calendar Type
 
 ![ChangeType][changeType]
 
@@ -51,15 +65,13 @@ I used **cpp** to build a custom dateEdit widget class in **Qt**.
     }); // 点击天数按钮选择天数型日历的信号槽
     connect(changeMonthButton, &QPushButton::clicked, this, [=]() {
         customDateEdit_2->changeType(CustomDateEdit::MONTH);
-    }); // 点击天数按钮选择月份型日历的信号槽
+    }); // 点击月份按钮选择月份型日历的信号槽
     connect(changeYearButton, &QPushButton::clicked, this, [=]() {
         customDateEdit_2->changeType(CustomDateEdit::YEAR);
-    }); // 点击天数按钮选择年份型日历的信号槽
+    }); // 点击年份按钮选择年份型日历的信号槽
 
     ui->centralWidget->setLayout(hBoxLayout);
 ```
 
-
-
 [customDateEdit]: README/customDateEdit.gif
-[changeType]:README/customDateEdit_changeCalendarType.gif
+[changeType]: README/customDateEdit_changeCalendarType.gif
